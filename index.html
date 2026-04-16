@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyage Europe 2026 — Daouda</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --noir: #0a0a0a;
+    --blanc: #f5f2eb;
+    --or: #c9a84c;
+    --rouge: #c0392b;
+    --bleu: #1a3a5c;
+    --vert: #2d6a4f;
+    --violet: #4a1942;
+    --gris: #8a8580;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--noir);
+    color: var(--blanc);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 4rem 2rem;
+    background: radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(26,58,92,0.15) 0%, transparent 60%),
+                var(--noir);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--or);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--or);
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--gris);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .hero-dates {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+
+  .date-pill {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--or);
+    letter-spacing: 0.1em;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gris);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--or), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAVIGATION */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--or);
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--or); }
+
+  /* SECTIONS COMMUNES */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  /* PARCOURS / TIMELINE */
+  .parcours-section {
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 6rem 0;
+  }
+
+  .parcours-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .timeline {
+    position: relative;
+    margin-top: 3rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--or), transparent);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0 2.5rem 3rem;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+  }
+
+  .timeline-item:hover {
+    background: rgba(201,168,76,0.03);
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--or);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.2);
+  }
+
+  .timeline-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gris);
+    line-height: 1.6;
+  }
+
+  .timeline-date strong {
+    display: block;
+    color: var(--or);
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .timeline-content p {
+    color: var(--gris);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+  }
+
+  .event-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.7rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  .badge-event { background: rgba(192,57,43,0.2); color: #e74c3c; border: 1px solid rgba(192,57,43,0.3); }
+  .badge-ticket { background: rgba(46,204,113,0.1); color: #2ecc71; border: 1px solid rgba(46,204,113,0.2); }
+  .badge-hotel { background: rgba(52,152,219,0.1); color: #3498db; border: 1px solid rgba(52,152,219,0.2); }
+  .badge-run { background: rgba(155,89,182,0.1); color: #9b59b6; border: 1px solid rgba(155,89,182,0.2); }
+  .badge-vol { background: rgba(241,196,15,0.1); color: #f1c40f; border: 1px solid rgba(241,196,15,0.2); }
+
+  /* DESTINATIONS CARDS */
+  .destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .dest-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+  }
+
+  .dest-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,168,76,0.3);
+  }
+
+  .dest-card-header {
+    padding: 2rem;
+    position: relative;
+  }
+
+  .dest-flag {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .dest-country {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 0.5rem;
+  }
+
+  .dest-city {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .dest-dates {
+    font-size: 0.8rem;
+    color: var(--gris);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .dest-card-body {
+    padding: 0 2rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 1.5rem;
+  }
+
+  .dest-places {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .dest-places li {
+    font-size: 0.85rem;
+    color: var(--gris);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .dest-places li::before {
+    content: '→';
+    color: var(--or);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  /* ACTIVITÉS SPECIALES */
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .event-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .event-card.concert::before { background: #e74c3c; }
+  .event-card.foot::before { background: #27ae60; }
+  .event-card.stade::before { background: #2980b9; }
+  .event-card.race::before { background: #8e44ad; }
+
+  .event-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .event-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .event-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gris);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-desc {
+    font-size: 0.82rem;
+    color: var(--gris);
+    line-height: 1.6;
+  }
+
+  .event-status {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    background: rgba(46,204,113,0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46,204,113,0.25);
+    text-transform: uppercase;
+  }
+
+  /* RUNS */
+  .runs-section { background: rgba(155,89,182,0.03); }
+
+  .runs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .run-card {
+    border: 1px solid rgba(155,89,182,0.2);
+    border-radius: 2px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .run-card:hover {
+    background: rgba(155,89,182,0.05);
+    border-color: rgba(155,89,182,0.4);
+  }
+
+  .run-flag { font-size: 1.5rem; margin-bottom: 0.8rem; display: block; }
+  .run-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: #9b59b6;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .run-title {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .run-detail {
+    font-size: 0.78rem;
+    color: var(--gris);
+    line-height: 1.5;
+  }
+
+  .run-km {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #9b59b6;
+    font-weight: 700;
+  }
+
+  /* BUDGET */
+  .budget-section {
+    background: rgba(201,168,76,0.02);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    padding: 6rem 0;
+  }
+
+  .budget-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .budget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-top: 3rem;
+  }
+
+  .budget-item {
+    background: var(--noir);
+    padding: 2rem 1.5rem;
+    transition: background 0.3s;
+  }
+
+  .budget-item:hover { background: rgba(201,168,76,0.05); }
+
+  .budget-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gris);
+    margin-bottom: 0.8rem;
+  }
+
+  .budget-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--or);
+  }
+
+  .budget-amount.paid {
+    font-size: 1.4rem;
+    color: #2ecc71;
+  }
+
+  .budget-sub {
+    font-size: 0.72rem;
+    color: var(--gris);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+  }
+
+  .budget-total {
+    grid-column: 1 / -1;
+    background: rgba(201,168,76,0.08);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .budget-total-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--blanc);
+  }
+
+  .budget-total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--or);
+  }
+
+  /* CHECKLIST */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .check-group h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 1.2rem;
+  }
+
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .check-item.done { color: var(--gris); }
+
+  .check-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+  }
+
+  .check-dot.ok { background: rgba(46,204,113,0.2); border: 1px solid #2ecc71; color: #2ecc71; }
+  .check-dot.todo { background: rgba(231,76,60,0.15); border: 1px solid #e74c3c; color: transparent; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--or);
+    margin-bottom: 1rem;
+  }
+
+  .footer-sub {
+    font-size: 0.8rem;
+    color: var(--gris);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; padding-left: 2rem; }
+    .timeline-item .timeline-date { border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Voyage 2026</div>
+  <ul class="nav-links">
+    <li><a href="#parcours">Parcours</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#events">Événements</a></li>
+    <li><a href="#runs">Running</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-tag">Montréal → Paris → Luxembourg → Londres → Manchester → Montréal</p>
+  <h1 class="hero-title">
+    Europe<span>2026</span>
+  </h1>
+  <p class="hero-subtitle">12 jours · 4 pays · 5 villes · Première fois en Europe</p>
+  <div class="hero-dates">
+    <span class="date-pill">16 Avril — Départ MTL</span>
+    <span class="date-pill">19 Avr — Concert Didi B</span>
+    <span class="date-pill">27 Avr — Man Utd ⚽</span>
+    <span class="date-pill">28 Avr — Retour MTL</span>
+    <span class="date-pill">2 Mai — 10km Lévis 🏃</span>
+  </div>
+  <div class="scroll-hint">Défiler</div>
+</div>
+
+<!-- PARCOURS TIMELINE -->
+<div class="parcours-section" id="parcours">
+  <div class="parcours-inner">
+    <p class="section-label">Itinéraire complet</p>
+    <h2 class="section-title">Le Parcours</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Jeu 16 Avril</strong>
+          19h00 · MTL YUL
+        </div>
+        <div class="timeline-content">
+          <h3>✈️ Décollage Montréal <span class="event-badge badge-vol">AF0345</span></h3>
+          <p>Siège 47L · Vol de nuit vers Paris CDG · Arrivée vendredi 07h50<br>
+          ⚡ Dès l'atterrissage: commande un Uber vers Gare de l'Est (56€) — NE PAS prendre le RER B! TGV Luxembourg à 10h40!</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Ven 17 Avril</strong>
+          10h40 → 12h51
+        </div>
+        <div class="timeline-content">
+          <h3>🚄 Paris → Luxembourg <span class="event-badge badge-ticket">TGV Payé ✓</span></h3>
+          <p>TGV INOUI 2815 · Voiture 17, Siège 714 · 2h11 de trajet<br>
+          Hôtel: ibis budget Luxembourg Aéroport · Bus 9 → centre-ville en 25 min (GRATUIT!)</p>
+          <p>🏙️ À l'arrivée: Place d'Armes → Cathédrale Notre-Dame → Chemin de la Corniche → Dîner dans le Grund</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Sam 18 Avril</strong>
+          Toute la journée
+        </div>
+        <div class="timeline-content">
+          <h3>🇱🇺 Journée Luxembourg</h3>
+          <p>06h00 🏃 Run matinal · Chemin de la Corniche + Alzette (6 km)</p>
+          <p>10h00 Casemates du Bock (10€) · 14h00 Ascenseur Pfaffenthal (GRATUIT!) · 15h00 Mudam (architecte du Louvre!)</p>
+          <p>Soir: Dîner dans le Grund · spécialités luxembourgeoises</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Dim 19 Avril</strong>
+          12h39 → 18h30
+        </div>
+        <div class="timeline-content">
+          <h3>🎤 Luxembourg → Metz → Paris → CONCERT <span class="event-badge badge-event">Didi B ✓</span></h3>
+          <p>TER 88526 Luxembourg → Metz (9,50€ payé) · TGV Metz → Paris → Concert Didi B 18h30</p>
+          <p>📍 Zénith Paris La Villette · 211 av. Jean Jaurès · Métro Ligne 5 → Porte de Pantin</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Lun 20 Avril</strong>
+          06h00 → soirée
+        </div>
+        <div class="timeline-content">
+          <h3>🇫🇷 Paris — Monuments</h3>
+          <p>06h00 🏃 Run matinal · Bords de Seine + Tuileries (7 km)</p>
+          <p>08h30 Tour Eiffel · 14h30 Musée d'Orsay · Soir avec les amis parisiens</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Mar 21 Avril</strong>
+          06h00 → soirée
+        </div>
+        <div class="timeline-content">
+          <h3>🇫🇷 Paris — Montmartre</h3>
+          <p>06h00 🏃 Run matinal · Canal Saint-Martin (7 km)</p>
+          <p>Matinée: Sacré-Cœur + village de Montmartre + Pigalle</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Mer 22 Avril</strong>
+          Toute la journée
+        </div>
+        <div class="timeline-content">
+          <h3>🇫🇷 Versailles ou Lyon</h3>
+          <p>Option A: Château de Versailles (RER C · 21€ entrée)</p>
+          <p>Option B: Lyon avec le 4e ami · 2h de train · SLO Hostel</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Jeu 23 Avril</strong>
+          Journée + soirée
+        </div>
+        <div class="timeline-content">
+          <h3>🇫🇷 Paris — Shopping + Louvre</h3>
+          <p>Louvre (22€) · Le Marais · Galeries Lafayette · Amis parisiens</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Ven 24 Avril</strong>
+          Matin → soir
+        </div>
+        <div class="timeline-content">
+          <h3>🚄 Paris → Londres <span class="event-badge badge-hotel">Wombat's ✓</span></h3>
+          <p>Eurostar 08h39 → 10h00 · 133€ · Gare du Nord → St Pancras</p>
+          <p>14h00 Tower Bridge + Tower of London · Soir: Borough Market</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Sam 25 Avril</strong>
+          06h00 → soirée
+        </div>
+        <div class="timeline-content">
+          <h3>🇬🇧 Londres — Full day</h3>
+          <p>06h00 🏃 Run matinal · Tamise + Tower Bridge (8 km) ⭐ MEILLEUR PARCOURS</p>
+          <p>Westminster · Big Ben · Buckingham · British Museum (GRATUIT!) · Soho le soir</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Dim 26 Avril</strong>
+          Matin → soir
+        </div>
+        <div class="timeline-content">
+          <h3>🚄 Londres → Manchester + Tour Old Trafford <span class="event-badge badge-ticket">Réservé ✓</span></h3>
+          <p>Avanti 08h18 → 11h33 · C$102 · London Euston → Manchester Piccadilly</p>
+          <p>Dépôt bagages ibis budget · 13h40 Tour Old Trafford (vestiaires + tunnel + pelouse!)</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Lun 27 Avril</strong>
+          06h00 → 22h15
+        </div>
+        <div class="timeline-content">
+          <h3>⚽ MATCH DAY — Man Utd vs Brentford <span class="event-badge badge-event">Payé ✓</span></h3>
+          <p>06h00 🏃 Run matinal · Salford Quays + Old Trafford (6 km — TAPER!)</p>
+          <p>17h00 Pubs autour du stade · 20h00 MATCH Premier League · 75 000 spectateurs!</p>
+          <p>⚠️ Après le match: TAXI DIRECT → ibis budget Airport (vol à 05h50!)</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Mar 28 Avril</strong>
+          04h00 → 12h00
+        </div>
+        <div class="timeline-content">
+          <h3>✈️ Retour Montréal <span class="event-badge badge-vol">AF1269 + AF0342</span></h3>
+          <p>04h00 Réveil ⏰ · 2 min de marche jusqu'au Terminal 2</p>
+          <p>05h50 MAN → CDG (Siège 21A) · 10h30 CDG → YUL (Siège 37A) · 12h00 Arrivée MTL 🏠</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">
+          <strong>Sam 2 Mai</strong>
+          10h00 · Lévis QC
+        </div>
+        <div class="timeline-content">
+          <h3>🏃 10km — Demi-Marathon de Lévis <span class="event-badge badge-run">Race Day!</span></h3>
+          <p>10km Sports Experts · Parcours des Anses · Départ 10h00</p>
+          <p>Dossard à récupérer 7h-8h45 · 4 jours après retour d'Europe!</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <p class="section-label">4 Pays · 5 villes</p>
+  <h2 class="section-title">Les Destinations</h2>
+
+  <div class="destinations-grid">
+
+    <div class="dest-card">
+      <div class="dest-card-header" style="background: linear-gradient(135deg, rgba(26,58,92,0.15), transparent);">
+        <span class="dest-flag">🇱🇺</span>
+        <div class="dest-country">Luxembourg</div>
+        <div class="dest-city">Luxembourg City</div>
+        <div class="dest-dates">17 — 19 Avril · 2 nuits</div>
+      </div>
+      <div class="dest-card-body">
+        <ul class="dest-places">
+          <li>Casemates du Bock (UNESCO) — 10€</li>
+          <li>Chemin de la Corniche (gratuit)</li>
+          <li>Ascenseur Pfaffenthal (gratuit)</li>
+          <li>Mudam — Musée d'art moderne</li>
+          <li>Quartier du Grund (nightlife)</li>
+          <li>Grand Ducal Palace (extérieur)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-card-header" style="background: linear-gradient(135deg, rgba(192,57,43,0.1), transparent);">
+        <span class="dest-flag">🇫🇷</span>
+        <div class="dest-country">France</div>
+        <div class="dest-city">Paris</div>
+        <div class="dest-dates">19 — 24 Avril · 5 nuits</div>
+      </div>
+      <div class="dest-card-body">
+        <ul class="dest-places">
+          <li>Tour Eiffel — 26-35€</li>
+          <li>Musée du Louvre — 22€</li>
+          <li>Musée d'Orsay — 16€</li>
+          <li>Montmartre + Sacré-Cœur</li>
+          <li>Château de Versailles — 21€</li>
+          <li>Le Marais + Canal Saint-Martin</li>
+          <li>Quartier Latin + bords de Seine</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-card-header" style="background: linear-gradient(135deg, rgba(26,58,92,0.1), transparent);">
+        <span class="dest-flag">🇬🇧</span>
+        <div class="dest-country">Angleterre</div>
+        <div class="dest-city">Londres</div>
+        <div class="dest-dates">24 — 26 Avril · 2 nuits</div>
+      </div>
+      <div class="dest-card-body">
+        <ul class="dest-places">
+          <li>Tower Bridge + Tower of London — £30</li>
+          <li>Westminster + Big Ben (gratuit)</li>
+          <li>Buckingham Palace (gratuit)</li>
+          <li>British Museum (GRATUIT!)</li>
+          <li>Soho + Covent Garden</li>
+          <li>Borough Market (dîner)</li>
+          <li>Run le long de la Tamise 🏃</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-card-header" style="background: linear-gradient(135deg, rgba(231,76,60,0.1), transparent);">
+        <span class="dest-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+        <div class="dest-country">Angleterre</div>
+        <div class="dest-city">Manchester</div>
+        <div class="dest-dates">26 — 28 Avril · 2 nuits</div>
+      </div>
+      <div class="dest-card-body">
+        <ul class="dest-places">
+          <li>Tour Old Trafford — vestiaires ⚽</li>
+          <li>Man Utd vs Brentford — Old Trafford</li>
+          <li>Northern Quarter (quartier branché)</li>
+          <li>Salford Quays + MediaCity</li>
+          <li>Pubs autour d'Old Trafford (pré-match!)</li>
+          <li>Castlefield (quartier historique)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ÉVÉNEMENTS CLÉS -->
+<section id="events" style="background: rgba(255,255,255,0.01); border-top: 1px solid rgba(255,255,255,0.04); max-width: 100%; padding: 6rem 2rem;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <p class="section-label">Billets confirmés</p>
+    <h2 class="section-title">Événements Clés</h2>
+
+    <div class="events-grid">
+
+      <div class="event-card concert">
+        <div class="event-icon">🎤</div>
+        <div class="event-date">Dim 19 Avril · 18h30</div>
+        <div class="event-title">Concert Didi B</div>
+        <div class="event-desc">Zénith Paris La Villette · 211 av. Jean Jaurès · 75019 Paris<br>Le Boss du Rap Ivoire — premier concert au Zénith! 6 400 personnes.</div>
+        <span class="event-status">✓ Billet Payé</span>
+      </div>
+
+      <div class="event-card stade">
+        <div class="event-icon">🏟️</div>
+        <div class="event-date">Dim 26 Avril · 13h40</div>
+        <div class="event-title">Tour Old Trafford</div>
+        <div class="event-desc">Vestiaires des joueurs · Tunnel · Bord de la pelouse · Manager's dugout · Musée Manchester United (80 min).</div>
+        <span class="event-status">✓ Réservé</span>
+      </div>
+
+      <div class="event-card foot">
+        <div class="event-icon">⚽</div>
+        <div class="event-date">Lun 27 Avril · 20h00</div>
+        <div class="event-title">Man Utd vs Brentford</div>
+        <div class="event-desc">Premier League · Old Trafford · Manchester<br>75 000 spectateurs · Fin ~22h15 → taxi direct aéroport!</div>
+        <span class="event-status">✓ Billet Payé</span>
+      </div>
+
+      <div class="event-card race">
+        <div class="event-icon">🏃</div>
+        <div class="event-date">Sam 2 Mai · 10h00</div>
+        <div class="event-title">10km Demi-Marathon de Lévis</div>
+        <div class="event-desc">Parcours des Anses · Lévis QC · 4 jours après retour d'Europe!<br>Dossard pickup: 7h-8h45.</div>
+        <span class="event-status">Race Day!</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMME RUNNING -->
+<section id="runs" class="runs-section" style="max-width: 100%; padding: 6rem 2rem;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <p class="section-label">Préparation 10km Lévis · 2 mai 2026</p>
+    <h2 class="section-title">Programme Running</h2>
+    <p style="color: var(--gris); font-size: 0.9rem; margin-top: -2rem; margin-bottom: 0;">Tous les runs à 6h00 du matin — villes du monde entier comme terrain d'entraînement!</p>
+
+    <div class="runs-grid">
+
+      <div class="run-card">
+        <span class="run-flag">🇱🇺</span>
+        <div class="run-date">Sam 18 Avr</div>
+        <div class="run-title">Luxembourg · Corniche + Alzette</div>
+        <div class="run-detail">Descente vers le Grund → bords de l'Alzette → escaliers du Pfaffenthal. Vues panoramiques!</div>
+        <span class="run-km">6 km</span>
+      </div>
+
+      <div class="run-card">
+        <span class="run-flag">🇫🇷</span>
+        <div class="run-date">Lun 20 Avr</div>
+        <div class="run-title">Paris · Seine + Tuileries</div>
+        <div class="run-detail">Quai des Tuileries → Pont Neuf → rive gauche → retour. Paris magique à l'aube!</div>
+        <span class="run-km">7 km</span>
+      </div>
+
+      <div class="run-card">
+        <span class="run-flag">🇫🇷</span>
+        <div class="run-date">Mar 21 Avr</div>
+        <div class="run-title">Paris · Canal Saint-Martin</div>
+        <div class="run-detail">Long du canal → platanes + ponts métalliques → Bassin de la Villette A/R.</div>
+        <span class="run-km">7 km</span>
+      </div>
+
+      <div class="run-card" style="border-color: rgba(155,89,182,0.5); background: rgba(155,89,182,0.05);">
+        <span class="run-flag">🇬🇧</span>
+        <div class="run-date">Sam 25 Avr · ⭐</div>
+        <div class="run-title">Londres · Tamise + Tower Bridge</div>
+        <div class="run-detail">Wombat's → Tower Bridge → South Bank → London Eye → St Paul's → Millennium Bridge. Le plus beau!</div>
+        <span class="run-km">8 km</span>
+      </div>
+
+      <div class="run-card">
+        <span class="run-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+        <div class="run-date">Lun 27 Avr · TAPER</div>
+        <div class="run-title">Manchester · Salford Quays</div>
+        <div class="run-detail">MediaCityUK → Imperial War Museum → Old Trafford. Allure douce — match ce soir!</div>
+        <span class="run-km">6 km</span>
+      </div>
+
+      <div class="run-card" style="border-color: rgba(231,76,60,0.3); background: rgba(231,76,60,0.04);">
+        <span class="run-flag">🏁</span>
+        <div class="run-date">Sam 2 Mai · RACE!</div>
+        <div class="run-title">Lévis · Parcours des Anses</div>
+        <div class="run-detail">Demi-Marathon de Lévis · 10km Sports Experts · Départ 10h · Vue sur le fleuve Saint-Laurent!</div>
+        <span class="run-km">10 km 🎯</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<div class="budget-section" id="budget">
+  <div class="budget-inner">
+    <p class="section-label">Estimation financière</p>
+    <h2 class="section-title">Budget du Voyage</h2>
+
+    <div class="budget-grid">
+      <div class="budget-item">
+        <div class="budget-label">Vols Air France</div>
+        <div class="budget-amount paid">Payés ✓</div>
+        <div class="budget-sub">MTL↔Paris + MAN↔MTL</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">TGV Paris↔Luxembourg</div>
+        <div class="budget-amount paid">131,50€ ✓</div>
+        <div class="budget-sub">A/R payé</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Train Londres→Manchester</div>
+        <div class="budget-amount paid">~102$ ✓</div>
+        <div class="budget-sub">08h18 Avanti West Coast</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Concert Didi B</div>
+        <div class="budget-amount paid">Payé ✓</div>
+        <div class="budget-sub">Zénith Paris · 19 avr</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Billet Man Utd</div>
+        <div class="budget-amount paid">Payé ✓</div>
+        <div class="budget-sub">Premier League · 27 avr</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Hébergements</div>
+        <div class="budget-amount">~760$</div>
+        <div class="budget-sub">Lux + Paris + Londres + Manchester</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Eurostar (à réserver)</div>
+        <div class="budget-amount">~200$</div>
+        <div class="budget-sub">Paris → Londres 24 avr</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Restaurants</div>
+        <div class="budget-amount">~480$</div>
+        <div class="budget-sub">~40$/jour × 12 jours</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Activités + Musées</div>
+        <div class="budget-amount">~250$</div>
+        <div class="budget-sub">Eiffel, Louvre, Casemates…</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Tour Old Trafford</div>
+        <div class="budget-amount">~55$</div>
+        <div class="budget-sub">~£30 · 26 avr</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Transports locaux</div>
+        <div class="budget-amount">~120$</div>
+        <div class="budget-sub">Navigo Paris + Oyster Londres</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-label">Taxi CDG + post-match</div>
+        <div class="budget-amount">~105$</div>
+        <div class="budget-sub">56€ CDG→Gare de l'Est + £25 taxi</div>
+      </div>
+      <div class="budget-total">
+        <div class="budget-total-label">Total estimé restant (hors billets payés)</div>
+        <div class="budget-total-amount">~2 100 $ CA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<section id="checklist">
+  <p class="section-label">Statut des réservations</p>
+  <h2 class="section-title">Checklist</h2>
+
+  <div class="checklist-grid">
+
+    <div class="check-group">
+      <h3>✅ Confirmé · Payé</h3>
+      <ul class="check-list">
+        <li class="check-item done"><span class="check-dot ok">✓</span>Vols Air France (MTL↔Europe)</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>TGV Paris↔Luxembourg (A/R)</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>TER Luxembourg → Metz</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>Train Londres → Manchester (Avanti)</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>Concert Didi B — Zénith Paris</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>Tour Old Trafford (13h40)</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>Billet Man Utd vs Brentford</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>Wombat's City Hostel Londres</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>ibis budget Manchester Airport</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>ibis budget Luxembourg Aéroport</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>UK ETA — fait!</li>
+        <li class="check-item done"><span class="check-dot ok">✓</span>Assurance voyage — faite!</li>
+      </ul>
+    </div>
+
+    <div class="check-group">
+      <h3>🔴 À faire maintenant</h3>
+      <ul class="check-list">
+        <li class="check-item"><span class="check-dot todo"></span>Eurostar Paris → Londres (24 avr) · eurostar.com · 133€</li>
+        <li class="check-item"><span class="check-dot todo"></span>Hébergement Paris (19-23 avr · ~4 nuits)</li>
+        <li class="check-item"><span class="check-dot todo"></span>SLO Hostel Lyon Saxe (si visite Lyon)</li>
+      </ul>
+      <br>
+      <h3 style="color: var(--gris);">💡 Conseils importants</h3>
+      <ul class="check-list">
+        <li class="check-item"><span style="color: var(--or); font-size: 0.8rem;">→</span>Passeport canadien valide jusqu'au 28 juillet 2026 mini</li>
+        <li class="check-item"><span style="color: var(--or); font-size: 0.8rem;">→</span>Transports 100% GRATUITS au Luxembourg!</li>
+        <li class="check-item"><span style="color: var(--or); font-size: 0.8rem;">→</span>Oyster Card pour le métro londonien</li>
+        <li class="check-item"><span style="color: var(--or); font-size: 0.8rem;">→</span>Pass Navigo pour Paris (semaine)</li>
+        <li class="check-item"><span style="color: var(--or); font-size: 0.8rem;">→</span>Taxi depuis Old Trafford après le match → aéroport MAN direct!</li>
+        <li class="check-item"><span style="color: var(--or); font-size: 0.8rem;">→</span>Réservation dossard 10km Lévis: 7h-8h45 le 2 mai</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">Bon Voyage, Daouda!</div>
+  <p class="footer-sub">16 Avril — 28 Avril 2026 · 4 Pays · 5 Villes · 1ère fois en Europe</p>
+
+</footer>
+
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Appear on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.dest-card, .event-card, .run-card, .timeline-item, .budget-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
